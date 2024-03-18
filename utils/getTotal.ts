@@ -1,5 +1,5 @@
-export default function getTotal(items:any, attr:any) {
-  const result = items.reduce((total:any, item:any) => {
+export default function getTotal(items: any, attr: any) {
+  const result = items.reduce((total: any, item: any) => {
     if (attr === "price") {
       total += item.quantity * item.price;
     } else if (attr === "quantity") {
