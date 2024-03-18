@@ -1,26 +1,25 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
-import { persistReducer } from 'redux-persist'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
+import { persistReducer } from "redux-persist";
 
 //? Reducers
-import cartReducer from './slices/cart.slice'
-import userReducer from './slices/user.slice'
+import cartReducer from "./slices/cart.slice";
+import userReducer from "./slices/user.slice";
 
-import apiSlice from '@/services/api'
+import apiSlice from "@/services/api";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1,
   storage: AsyncStorage,
-}
+};
 
 // 数据持久化
-const cartPersistedReducer = persistReducer(persistConfig, cartReducer)
+const cartPersistedReducer = persistReducer(persistConfig, cartReducer);
 
-
-export * from './slices/user.slice'
-export * from './slices/cart.slice'
+export * from "./slices/user.slice";
+export * from "./slices/cart.slice";
 
 export const store = configureStore({
   reducer: {
@@ -28,10 +27,13 @@ export const store = configureStore({
     cart: cartPersistedReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }).concat(apiSlice.middleware),
-})
+});
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
